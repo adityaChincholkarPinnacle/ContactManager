@@ -1,0 +1,39 @@
+{
+  "contacts": [
+    {
+      "name": "adi",
+      "email": "john@example.com",
+      "phone": "7796259818",
+      "favourite": false,
+      "id": 1
+    },
+    {
+      "name": "Bob Johnson1",
+      "email": "bob@example.com",
+      "phone": "+1 (555) 567-8901",
+      "favourite": true,
+      "id": 3
+    },
+    {
+      "name": "Tanish",
+      "email": "tanish@gmail.com",
+      "phone": "779625981",
+      "favourite": false,
+      "id": 4
+    },
+    {
+      "name": "Aditya Chincholkar",
+      "email": "adityachincholkar38@gmail.com",
+      "phone": "7796259818",
+      "favourite": false,
+      "id": 5
+    },
+    {
+      "name": "ganesh",
+      "email": "ganu@gmail.comasd",
+      "phone": "7796259818",
+      "favourite": true,
+      "id": 6
+    }
+  ]
+}
