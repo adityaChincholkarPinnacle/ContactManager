@@ -1,10 +1,15 @@
 import React from 'react';
 import {
   Dialog, DialogTitle, DialogContent, DialogActions,
-  TextField, Checkbox, FormControlLabel, Button,
-  IconButton, Snackbar, Alert, Box, Stack, DialogContentText
+  TextField, Button,
+  IconButton, Snackbar, Alert, Box, Stack, Typography, DialogContentText, Slide, useTheme
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
+import PersonIcon from '@mui/icons-material/Person';
+import MailOutlineIcon from '@mui/icons-material/MailOutline';
+import PhoneIphoneIcon from '@mui/icons-material/PhoneIphone';
+import StarIcon from '@mui/icons-material/Star';
+import StarBorderIcon from '@mui/icons-material/StarBorder';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -30,7 +35,15 @@ const schema = yup.object().shape({
 
 type FormValues = Omit<Contact, 'id'>;
 
+const Transition = React.forwardRef(function Transition(
+  props: any,
+  ref: React.Ref<unknown>,
+) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
+
 const ContactModal: React.FC = () => {
+  const theme = useTheme();
   const queryClient = useQueryClient();
   const selectedContact = useStore((s) => s.selectedContact);
   const isCreateMode = useStore((s) => s.isCreateMode);
@@ -147,9 +160,21 @@ const ContactModal: React.FC = () => {
 
   return (
     <>
-      <Dialog open={isModalOpen} onClose={closeContactModal} maxWidth="sm" fullWidth>
+      <Dialog
+        open={isModalOpen}
+        onClose={closeContactModal}
+        maxWidth="sm"
+        fullWidth
+        TransitionComponent={Transition}
+        PaperProps={{
+          sx: {
+            borderRadius: 3,
+            boxShadow: theme.shadows[24],
+          },
+        }}
+      >
         <form onSubmit={handleSubmit(onSubmit)}>
-          <DialogTitle>
+          <DialogTitle sx={{ pb: 1, pt: 2, px: 4 }}>
             <Box display="flex" justifyContent="space-between" alignItems="center">
               {isCreateMode ? 'Add New Contact' : 'Edit Contact'}
               <IconButton edge="end" onClick={closeContactModal}>
@@ -157,8 +182,8 @@ const ContactModal: React.FC = () => {
               </IconButton>
             </Box>
           </DialogTitle>
-          <DialogContent dividers>
-            <Stack spacing={2}>
+          <DialogContent sx={{ px: 4, py: 3, pt: 1 }}>
+            <Stack spacing={3} sx={{ mt: 1.5 }}>
               <Controller
                 name="name"
                 control={control}
@@ -166,6 +191,12 @@ const ContactModal: React.FC = () => {
                   <TextField
                     {...field}
                     label="Name"
+                    placeholder="John Doe"
+                    InputProps={{
+                      startAdornment: (
+                        <PersonIcon sx={{ mr: 1, color: 'action.active' }} />
+                      ),
+                    }}
                     error={!!errors.name}
                     helperText={errors.name?.message}
                     fullWidth
@@ -179,6 +210,12 @@ const ContactModal: React.FC = () => {
                   <TextField
                     {...field}
                     label="Email"
+                    placeholder="john@example.com"
+                    InputProps={{
+                      startAdornment: (
+                        <MailOutlineIcon sx={{ mr: 1, color: 'action.active' }} />
+                      ),
+                    }}
                     error={!!errors.email}
                     helperText={errors.email?.message}
                     fullWidth
@@ -192,8 +229,14 @@ const ContactModal: React.FC = () => {
                   <TextField
                     {...field}
                     label="Phone"
+                    placeholder="1234567890"
                     type="tel"
                     inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
+                    InputProps={{
+                      startAdornment: (
+                        <PhoneIphoneIcon sx={{ mr: 1, color: 'action.active' }} />
+                      ),
+                    }}
                     error={!!errors.phone}
                     helperText={errors.phone?.message}
                     fullWidth
@@ -203,16 +246,25 @@ const ContactModal: React.FC = () => {
               <Controller
                 name="favourite"
                 control={control}
-                render={({ field }) => (
-                  <FormControlLabel
-                    control={<Checkbox {...field} checked={field.value} color="warning" />}
-                    label="Favourite"
-                  />
+                render={({ field: { value, onChange } }) => (
+                  <Box display="flex" alignItems="center" gap={1} sx={{ mt: 1 }}>
+                    <IconButton
+                      onClick={() => onChange(!value)}
+                      color={value ? 'warning' : 'default'}
+                      aria-label="favourite"
+                      size="small"
+                    >
+                      {value ? <StarIcon /> : <StarBorderIcon />}
+                    </IconButton>
+                    <Typography variant="body2" color="text.secondary">
+                      Favourite
+                    </Typography>
+                  </Box>
                 )}
               />
             </Stack>
           </DialogContent>
-          <DialogActions>
+          <DialogActions sx={{ px: 4, pb: 3, gap: 2, justifyContent: 'flex-end' }}>
             {!isCreateMode && (
               <Button
                 color="error"
@@ -223,7 +275,7 @@ const ContactModal: React.FC = () => {
                 Delete
               </Button>
             )}
-            <Button onClick={closeContactModal}>Cancel</Button>
+            <Button variant="outlined" onClick={closeContactModal}>Cancel</Button>
             <Button
               type="submit"
               variant="contained"
