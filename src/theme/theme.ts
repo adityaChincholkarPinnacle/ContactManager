@@ -1,7 +1,7 @@
 import { createTheme, Theme, ThemeOptions } from '@mui/material/styles';
 import { ThemeMode } from '../types';
 
-// Extend the Theme interface to include custom properties
+
 declare module '@mui/material/styles' {
   interface Theme {
     custom: {
@@ -9,7 +9,7 @@ declare module '@mui/material/styles' {
       appBarHeight: number;
     };
   }
-  // Allow configuration using `createTheme`
+  
   interface ThemeOptions {
     custom?: {
       drawerWidth?: number;
@@ -18,7 +18,7 @@ declare module '@mui/material/styles' {
   }
 }
 
-// Custom theme settings that don't change between modes
+
 const commonTheme: ThemeOptions = {
   typography: {
     fontFamily: '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
@@ -64,7 +64,7 @@ const commonTheme: ThemeOptions = {
   },
 };
 
-// Light theme settings
+
 const lightTheme: ThemeOptions = {
   ...commonTheme,
   palette: {
@@ -93,7 +93,7 @@ const lightTheme: ThemeOptions = {
   },
 };
 
-// Dark theme settings
+
 const darkTheme: ThemeOptions = {
   ...commonTheme,
   palette: {
@@ -136,10 +136,10 @@ const darkTheme: ThemeOptions = {
 };
 
 /**
- * Creates a theme based on the specified mode
- * @param mode - The theme mode ('light' | 'dark' | 'system')
- * @param prefersDarkMode - Whether the system prefers dark mode (for 'system' mode)
- * @returns A configured Material-UI theme
+ * 
+ * @param mode 
+ * @param prefersDarkMode 
+ * @returns 
  */
 export const createAppTheme = (
   mode: ThemeMode = 'light',
@@ -152,5 +152,4 @@ export const createAppTheme = (
   return createTheme(resolvedMode === 'dark' ? darkTheme : lightTheme);
 };
 
-// Export theme type for use in components
 export type AppTheme = Theme;

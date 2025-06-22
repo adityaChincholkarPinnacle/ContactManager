@@ -8,7 +8,7 @@ const ThemeToggleButton: React.FC = () => {
   const theme = useTheme();
   const { themeMode, toggleThemeMode } = useUIStore();
   
-  // Determine the next theme mode for the tooltip
+  
   const nextThemeMode = themeMode === 'dark' ? 'light' : 'dark';
   
   return (

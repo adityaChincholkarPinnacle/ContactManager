@@ -29,20 +29,20 @@ import {
   Star as StarIcon, 
   StarBorder as StarBorderIcon,
   Add as AddIcon,
-  FileDownload as FileDownloadIcon,
+
   Edit as EditIcon
 } from '@mui/icons-material';
 import { useStore } from '../store/useStore';
 import { useUIStore } from '../store/uiStore';
-import { exportToCSV } from '../utils/exportToCSV';
 
-// API Configuration
+
+
 const API_URL = 'http://localhost:3001/contacts';
 
-// Constants
+
 const ROWS_PER_PAGE_OPTIONS = [5, 10, 25];
 
-// API Functions
+
 const fetchContacts = async (): Promise<Contact[]> => {
   const response = await fetch(API_URL);
   if (!response.ok) throw new Error('Failed to fetch contacts');
@@ -65,7 +65,6 @@ const toggleFavourite = async (contact: Contact): Promise<Contact> => {
 
 
 
-// Helper hook for debouncing
 const useDebounce = (value: string, delay: number) => {
   const [debouncedValue, setDebouncedValue] = useState(value);
 
@@ -83,12 +82,12 @@ const useDebounce = (value: string, delay: number) => {
 };
 
 const ContactsPage: React.FC = () => {
-  // 1. Hooks with side effects
+  
   const theme = useTheme();
   const queryClient = useQueryClient();
   const { setMessage } = useUIStore();
   
-  // 2. State from store
+
   const {
     searchQuery,
     setSearchQuery,
@@ -101,22 +100,22 @@ const ContactsPage: React.FC = () => {
     openContactModal
   } = useStore();
   
-  // 3. Search input state and debouncing
+
   const [searchInput, setSearchInput] = useState('');
   const debouncedSearchQuery = useDebounce(searchInput, 300);
   
-  // Handle search input change
+
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchInput(e.target.value);
   };
   
-  // Update search query when debounced value changes
+  
   useEffect(() => {
     setSearchQuery(debouncedSearchQuery);
-    setPage(0); // Reset to first page when search changes
+    setPage(0); 
   }, [debouncedSearchQuery, setSearchQuery, setPage]);
   
-  // 4. Data fetching with proper type annotation
+  
   const { 
     data: contacts = [] as Contact[], 
     isLoading, 
@@ -130,7 +129,7 @@ const ContactsPage: React.FC = () => {
     },
   });
   
-  // Filter and search contacts
+  
   const filteredContacts = useMemo(() => {
     if (!Array.isArray(contacts)) return [];
     return contacts.filter((contact: Contact) => {
@@ -149,14 +148,14 @@ const ContactsPage: React.FC = () => {
     });
   }, [contacts, searchQuery, favoritesOnly]);
   
-  // Calculate paginated contacts
+  
   const paginatedContacts = useMemo(() => {
     const startIndex = page * rowsPerPage;
     const endIndex = startIndex + rowsPerPage;
     return filteredContacts.slice(startIndex, endIndex);
   }, [filteredContacts, page, rowsPerPage]);
   
-  // 5. Pagination handlers
+
   const handleChangePage = (_: unknown, newPage: number) => {
     setPage(newPage);
   };
@@ -166,7 +165,7 @@ const ContactsPage: React.FC = () => {
     setPage(0);
   };
   
-  // 6. Mutation for toggling favorite status with proper type safety
+  
   const toggleFavoriteMutation = useMutation<Contact, Error, Contact, { previousContacts?: Contact[] }>({
     mutationFn: toggleFavourite,
     onMutate: async (updatedContact) => {
@@ -202,7 +201,7 @@ const ContactsPage: React.FC = () => {
     }
   };
   
-  // 7. Reset to first page when filter changes
+
   useEffect(() => {
     setPage(0);
   }, [favoritesOnly, setPage]);
@@ -212,16 +211,8 @@ const ContactsPage: React.FC = () => {
     toggleFavoriteMutation.mutate(contact);
   };
   
-  const handleExportCSV = () => {
-    try {
-      exportToCSV(filteredContacts, `contacts_${new Date().toISOString().split('T')[0]}`);
-      setMessage(`Exported ${filteredContacts.length} contacts to CSV`, 'success');
-    } catch (err) {
-      setMessage('Failed to export contacts', 'error');
-    }
-  };
-  
-  // Handle add new contact
+
+    
   const handleAddContact = () => {
     openContactModal(null);
   };
@@ -246,7 +237,7 @@ const ContactsPage: React.FC = () => {
 
   
 
-  // Render empty state if no contacts
+  
   if (!Array.isArray(contacts) || contacts.length === 0) {
     return (
       <Box sx={{ p: 4, textAlign: 'center' }}>
@@ -300,15 +291,15 @@ const ContactsPage: React.FC = () => {
             sx={{ whiteSpace: 'nowrap', mr: 1 }}
           />
           
-          <Button
-            variant="outlined"
-            startIcon={<FileDownloadIcon />}
-            onClick={handleExportCSV}
-            disabled={filteredContacts.length === 0}
-            sx={{ whiteSpace: 'nowrap' }}
-          >
-            Export CSV
-          </Button>
+
+
+
+
+
+
+
+
+
         </Box>
         
         <TableContainer>
@@ -326,8 +317,8 @@ const ContactsPage: React.FC = () => {
                 <TableRow 
                   key={contact.id}
                   hover
-                  sx={{ '&:hover': { bgcolor: alpha(theme.palette.primary.light, 0.05) } }}
-                >
+                  sx={{ '&:hover': { bgcolor: alpha(theme.palette.primary.light, 0.05) } }}>
+      
                   <TableCell>
                     <Box sx={{ display: 'flex', alignItems: 'center' }}>
                       <Tooltip title={contact.favourite ? 'Remove from favorites' : 'Add to favorites'}>
@@ -336,8 +327,8 @@ const ContactsPage: React.FC = () => {
                           onClick={() => handleToggleFavorite(contact)}
                           color={contact.favourite ? 'primary' : 'default'}
                           sx={{ mr: 1 }}
-                          disabled={toggleFavoriteMutation.isPending}
-                        >
+                          disabled={toggleFavoriteMutation.isPending}>
+              
                           {contact.favourite ? <StarIcon /> : <StarBorderIcon />}
                         </IconButton>
                       </Tooltip>
@@ -350,8 +341,8 @@ const ContactsPage: React.FC = () => {
                     <IconButton
                       size="small"
                       onClick={() => handleEditContact(contact)}
-                      color="primary"
-                    >
+                      color="primary">
+          
                       <EditIcon />
                     </IconButton>
                   </TableCell>
@@ -383,7 +374,7 @@ const ContactsPage: React.FC = () => {
         />
       </Paper>
       
-      {/* Add Contact FAB */}
+
       <Tooltip title="Add Contact">
         <Fab
           color="primary"

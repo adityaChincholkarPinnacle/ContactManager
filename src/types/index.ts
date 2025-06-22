@@ -1,7 +1,6 @@
-// Theme
+
 export type ThemeMode = 'light' | 'dark' | 'system';
 
-// User and Auth
 export interface User {
   id: string;
   name: string;
@@ -9,10 +8,8 @@ export interface User {
   avatar?: string;
 }
 
-// Contacts
 export type { Contact } from './contact';
 
-// API Response
 export interface ApiResponse<T = unknown> {
   data: T;
   message?: string;
@@ -20,7 +17,6 @@ export interface ApiResponse<T = unknown> {
   statusCode?: number;
 }
 
-// Pagination
 export interface PaginatedResponse<T> {
   data: T[];
   total: number;
@@ -29,7 +25,7 @@ export interface PaginatedResponse<T> {
   totalPages: number;
 }
 
-// Form Values
+
 export interface ContactFormValues {
   name: string;
   email: string;

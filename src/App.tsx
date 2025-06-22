@@ -15,14 +15,14 @@ function App() {
   const { themeMode, setThemeMode } = useUIStore();
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
 
-  // Update theme mode based on system preference if set to 'system'
+
   useEffect(() => {
     if (themeMode === 'system') {
       setThemeMode(prefersDarkMode ? 'dark' : 'light');
     }
   }, [themeMode, prefersDarkMode, setThemeMode]);
 
-  // Create theme with current mode
+  
   const theme = useMemo(
     () => createAppTheme(themeMode, prefersDarkMode),
     [themeMode, prefersDarkMode]

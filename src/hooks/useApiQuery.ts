@@ -1,5 +1,4 @@
 import { useQuery, UseQueryOptions } from '@tanstack/react-query';
-import { AxiosError } from 'axios';
 
 export const useApiQuery = <TData, TError = Error>(
   queryKey: unknown[],

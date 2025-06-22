@@ -6,7 +6,7 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import App from './App';
 
-// Create a client
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -16,7 +16,7 @@ const queryClient = new QueryClient({
   },
 });
 
-// Create a theme instance
+
 const theme = createTheme({
   palette: {
     mode: 'light',

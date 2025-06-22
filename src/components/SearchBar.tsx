@@ -10,12 +10,12 @@ const SearchBar: React.FC = () => {
   const [localValue, setLocalValue] = useState(searchQuery);
   const debouncedSearchQuery = useDebounce(localValue, 400);
 
-  // Update local value when searchQuery changes from outside (e.g., clear filters)
+  
   useEffect(() => {
     setLocalValue(searchQuery);
   }, [searchQuery]);
 
-  // Update the store when debounced value changes
+  
   useEffect(() => {
     setSearchQuery(debouncedSearchQuery);
   }, [debouncedSearchQuery, setSearchQuery]);

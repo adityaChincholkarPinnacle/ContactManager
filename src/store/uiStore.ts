@@ -10,17 +10,17 @@ interface UIMessage {
 }
 
 interface UIStore {
-  // Theme
+  
   themeMode: ThemeMode;
   toggleThemeMode: () => void;
   setThemeMode: (mode: ThemeMode) => void;
   
-  // Messages
+  
   message: UIMessage | null;
   setMessage: (text: string, type?: MessageType) => void;
   clearMessage: () => void;
   
-  // Contact Modal
+  
   isContactModalOpen: boolean;
   selectedContact: any | null;
   openContactModal: (contact?: any) => void;
@@ -35,27 +35,27 @@ interface UIStore {
 const useUIStore = create<UIStore>()(
   persist(
     (set) => ({
-      // Initial state
+
       themeMode: 'light',
       message: null,
-      globalError: null, // For backward compatibility
+      globalError: null, 
       isContactModalOpen: false,
       selectedContact: null,
       
-      // Theme actions
+      
       toggleThemeMode: () => set((state) => ({
         themeMode: state.themeMode === 'light' ? 'dark' : 'light'
       })),
       setThemeMode: (mode: ThemeMode) => set({ themeMode: mode }),
       
-      // Message actions
+    
       setMessage: (text, type = 'error') => set({
         message: { text, type },
-        globalError: type === 'error' ? text : null // For backward compatibility
+        globalError: type === 'error' ? text : null 
       }),
       clearMessage: () => set({ message: null }),
       
-      // Contact Modal actions
+      
       openContactModal: (contact = null) => set({ 
         isContactModalOpen: true,
         selectedContact: contact 
@@ -65,7 +65,7 @@ const useUIStore = create<UIStore>()(
         selectedContact: null 
       }),
       
-      // Backward compatibility methods
+      
       setGlobalError: (text) => set({ 
         globalError: text,
         message: { text, type: 'error' } 
@@ -76,9 +76,9 @@ const useUIStore = create<UIStore>()(
       }),
     }),
     {
-      name: 'ui-storage', // unique name for localStorage key
+      name: 'ui-storage', 
       storage: createJSONStorage(() => localStorage),
-      // Only persist theme-related state
+      
       partialize: (state) => ({
         themeMode: state.themeMode,
       }),

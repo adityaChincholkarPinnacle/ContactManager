@@ -63,10 +63,10 @@ const ContactCard: React.FC<ContactCardProps> = ({ contact, selected = false, on
       // Cancel any outgoing refetches
       await queryClient.cancelQueries({ queryKey: ['contacts'] });
 
-      // Snapshot the previous value
+      
       const previousContacts = queryClient.getQueryData<Contact[]>(['contacts']);
 
-      // Optimistically update to the new value
+      
       if (previousContacts) {
         queryClient.setQueryData<Contact[]>(['contacts'], 
           previousContacts.map(c => 
@@ -80,14 +80,14 @@ const ContactCard: React.FC<ContactCardProps> = ({ contact, selected = false, on
       return { previousContacts };
     },
     onError: (err, updatedContact, context) => {
-      // Rollback on error
+      
       if (context?.previousContacts) {
         queryClient.setQueryData(['contacts'], context.previousContacts);
       }
       setGlobalError('Failed to update favourite status');
     },
     onSettled: () => {
-      // Always refetch after error or success
+      
       queryClient.invalidateQueries({ queryKey: ['contacts'] });
     },
   });

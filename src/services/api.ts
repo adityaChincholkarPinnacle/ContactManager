@@ -20,7 +20,6 @@ export const apiClient = async <T>(
   return response.json();
 };
 
-// Example API functions
 export const fetchItems = async () => {
   return apiClient<{ data: any[] }>('/items');
 };
