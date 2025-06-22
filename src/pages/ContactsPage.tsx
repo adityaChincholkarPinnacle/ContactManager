@@ -37,7 +37,9 @@ import { useUIStore } from '../store/uiStore';
 
 
 
-const API_URL = 'http://localhost:3001/contacts';
+import { API_BASE_URL } from '../constants';
+
+const API_URL = `${API_BASE_URL}/contacts`;
 
 
 const ROWS_PER_PAGE_OPTIONS = [5, 10, 25];

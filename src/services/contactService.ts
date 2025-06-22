@@ -1,6 +1,8 @@
 import { Contact, CreateContactDTO, UpdateContactDTO } from '../types/contact';
 
-const API_URL = 'http://localhost:3001/contacts';
+import { API_BASE_URL } from '../constants';
+
+const API_URL = `${API_BASE_URL}/contacts`;
 
 export const fetchContacts = async (): Promise<Contact[]> => {
   const response = await fetch(API_URL);
